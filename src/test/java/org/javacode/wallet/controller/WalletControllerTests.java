@@ -85,7 +85,7 @@ public class WalletControllerTests {
 
         when(walletService.updateWallet(any(RequestWalletDto.class))).thenReturn(responseWalletDto);
 
-        mockMvc.perform(post("/api/v1/wallets")
+        mockMvc.perform(post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -100,7 +100,7 @@ public class WalletControllerTests {
 
         when(walletService.updateWallet(any(RequestWalletDto.class))).thenThrow(new WalletNotFoundException("Wallet not found"));
 
-        mockMvc.perform(post("/api/v1/wallets")
+        mockMvc.perform(post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound())
@@ -114,7 +114,7 @@ public class WalletControllerTests {
 
         when(walletService.updateWallet(any(RequestWalletDto.class))).thenThrow(new InsufficientFundsException("Insufficient funds"));
 
-        mockMvc.perform(post("/api/v1/wallets")
+        mockMvc.perform(post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
@@ -126,7 +126,7 @@ public class WalletControllerTests {
         UUID walletId = UUID.fromString("325342c5-126e-424a-b0f8-b24129a5babe");
         RequestWalletDto request = new RequestWalletDto(walletId, WalletOperation.DEPOSIT, -100);
 
-        mockMvc.perform(post("/api/v1/wallets")
+        mockMvc.perform(post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -136,7 +136,7 @@ public class WalletControllerTests {
     public void testUpdateWallet_NullWalletId() throws Exception {
         RequestWalletDto request = new RequestWalletDto(null, WalletOperation.DEPOSIT, 1000);
 
-        mockMvc.perform(post("/api/v1/wallets")
+        mockMvc.perform(post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -147,7 +147,7 @@ public class WalletControllerTests {
         UUID walletId = UUID.fromString("325342c5-126e-424a-b0f8-b24129a5babe");
         RequestWalletDto request = new RequestWalletDto(walletId, null, 1000);
 
-        mockMvc.perform(post("/api/v1/wallets")
+        mockMvc.perform(post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());

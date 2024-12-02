@@ -8,6 +8,7 @@ import org.javacode.wallet.exception.InsufficientFundsException;
 import org.javacode.wallet.exception.WalletNotFoundException;
 import org.javacode.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -18,14 +19,13 @@ public class WalletService {
     private final WalletRepository walletRepository;
 
     public ResponseWalletDto getWallet(UUID walletId) {
-        Wallet wallet = walletRepository.findById(walletId)
-                .orElseThrow(() -> new WalletNotFoundException("Wallet not found"));
+        Wallet wallet = walletRepository.findById(walletId).orElseThrow(() -> new WalletNotFoundException("Wallet not found"));
         return new ResponseWalletDto(wallet.getId(), wallet.getBalance());
     }
 
+    @Transactional
     public ResponseWalletDto updateWallet(RequestWalletDto request) {
-        Wallet wallet = walletRepository.findById(request.getWalletId())
-                .orElseThrow(() -> new WalletNotFoundException("Wallet not found"));
+        Wallet wallet = walletRepository.findById(request.getWalletId()).orElseThrow(() -> new WalletNotFoundException("Wallet not found"));
         switch (request.getOperationType()) {
             case DEPOSIT:
                 wallet.setBalance(wallet.getBalance() + request.getAmount());
