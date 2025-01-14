@@ -8,7 +8,7 @@ import org.javacode.wallet.service.WalletService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 import java.util.UUID;
 
