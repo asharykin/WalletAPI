@@ -5,19 +5,15 @@ services:
     build: .
     ports:
       - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${SPRING_DATASOURCE_DB}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    env_file:
+      - .env
     depends_on:
       - db
 
   db:
     image: postgres:latest
-    environment:
-      POSTGRES_DB: ${SPRING_DATASOURCE_DB}
-      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
-      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    env_file:
+      - .env
     ports:
       - "5432:5432"
 
